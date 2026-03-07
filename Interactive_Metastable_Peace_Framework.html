@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metastable Peace: AI Arms & Influence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; }
+        h1, h2, h3, h4, .mono { font-family: 'JetBrains+Mono', monospace; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+        .neon-text-cyan { text-shadow: 0 0 10px rgba(6, 182, 212, 0.5); }
+        .neon-border-pink { box-shadow: 0 0 15px rgba(217, 70, 239, 0.3); border-color: #d946ef; }
+        input[type=range] {
+            -webkit-appearance: none; width: 100%; background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
+            background: #ffffff; cursor: pointer; margin-top: -6px; box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px; cursor: pointer; background: #334155; border-radius: 2px;
+        }
+        input[type=range]:focus { outline: none; }
+        .slider-cyan::-webkit-slider-thumb { background: #06b6d4; }
+        .slider-cyan::-webkit-slider-runnable-track { background: #164e63; }
+        .slider-pink::-webkit-slider-thumb { background: #d946ef; }
+        .slider-pink::-webkit-slider-runnable-track { background: #701a75; }
+        .slider-emerald::-webkit-slider-thumb { background: #10b981; }
+        .slider-emerald::-webkit-slider-runnable-track { background: #064e3b; }
+        .slider-amber::-webkit-slider-thumb { background: #f59e0b; }
+        .slider-amber::-webkit-slider-runnable-track { background: #78350f; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .accordion-item.active .accordion-content { max-height: 500px; }
+        .accordion-item.active .icon-rotate { transform: rotate(90deg); }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-900 selection:text-cyan-50">
+
+    <!-- Chosen Palette: Vibrant Cyberpunk (Slate/Deep Blue background, Cyan #06b6d4, Fuchsia #d946ef, Emerald #10b981, Amber #f59e0b) -->
+    <!-- Application Structure Plan: The SPA is structured as an interactive "Command Center" dashboard rather than a static linear report. It opens with context, but immediately immerses the user in a simulation of the "Metastable Peace" model. Users manipulate the core variables (Entropy, Coupling, Signaling, Parity) via sliders, which dynamically update three distinct visualizations in real-time: a Utility Stacked Bar, a System State Scatter Plot, and a Safety Triad Radar. This structure was chosen because the source material describes a "System-Dynamics Model"; allowing users to *play* with the dynamics is far more effective for understanding complex interconnected variables than reading static equations. A concluding section organizes Kahn's 44-rung ladder into an interactive HTML accordion to show the consequences of failure. -->
+    <!-- Visualization & Content Choices: 
+         1. Payoff Functions -> Goal: Compare/Change -> Stacked Bar Chart (Chart.js): Shows U_sq vs U_esc breaking down positive (synergy) and negative (friction/MAD) components. Updates dynamically on slider input.
+         2. System State (H vs C) -> Goal: Relationships -> Scatter Plot (Chart.js): Maps the current user state against safe/danger zones, visualizing the "inverted pendulum".
+         3. Safety Mechanisms -> Goal: Compare -> Radar Chart (Chart.js): Shows how Kahn, Schelling, and Jervis safeties respond holistically to variable changes. 
+         4. Kahn's Ladder -> Goal: Organize -> HTML/CSS Accordion: Organizes the 44 discrete states into digestible, expandable text blocks without using prohibited SVGs or Mermaid. 
+         All charts strictly adhere to NO SVG/Mermaid, using Canvas via Chart.js with responsive div wrappers. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <nav class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold mono tracking-tighter text-slate-100">
+                <span class="text-cyan-400">&gt;</span> METASTABLE<span class="text-pink-500">_PEACE</span>
+            </div>
+            <div class="hidden md:flex gap-6 text-sm font-semibold text-slate-400">
+                <a href="#simulator" class="hover:text-cyan-400 transition-colors">SYS_SIMULATOR</a>
+                <a href="#ladder" class="hover:text-pink-400 transition-colors">ESCALATION_LADDER</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="max-w-7xl mx-auto px-6 py-16 lg:py-24">
+        <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-white leading-tight">
+            Navigating the <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500 neon-text-cyan">Frontier Model</span> Arms Race
+        </h1>
+        <p class="text-lg md:text-xl text-slate-400 max-w-3xl leading-relaxed mb-8">
+            As AI models reach unprecedented capabilities, geopolitics mirrors Cold War nuclear dynamics. Conflict is avoided when the <strong>Information Entropy</strong> of the system is low and <strong>Coupling</strong> is high. If the <em>Perceived Payoff</em> of the status quo remains higher than the <em>Maximum Potential Payoff</em> of an escalation, the system remains in a metastable peace.
+        </p>
+        <a href="#simulator" class="inline-block bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold py-3 px-8 rounded-full transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] mono">
+            INITIALIZE SIMULATION &#9660;
+        </a>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 pb-24 space-y-24">
+
+        <section id="simulator" class="scroll-mt-24">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                    <span class="text-cyan-500 mono bg-slate-800 px-2 py-1 rounded text-sm">01</span> 
+                    Dynamic Payoff Simulator
+                </h2>
+                <p class="text-slate-400 max-w-4xl">
+                    This interactive control panel models the mathematical state-transition of global powers. Adjust the core variables on the left to observe how they alter the utility equations. To maintain peace, you must ensure the Status Quo payoff strictly exceeds the Escalation payoff.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <div class="lg:col-span-4 bg-slate-900 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col gap-8">
+                    <h3 class="text-xl font-bold text-white mono mb-2 border-b border-slate-800 pb-4">Control Variables</h3>
+                    
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-end">
+                            <label class="text-sm font-semibold text-slate-300">Information Entropy (H)</label>
+                            <span id="val-entropy" class="mono text-pink-400 text-sm font-bold bg-slate-950 px-2 rounded">80%</span>
+                        </div>
+                        <input type="range" id="slider-entropy" class="slider-pink" min="0" max="100" value="80">
+                        <p class="text-xs text-slate-500">Degree of uncertainty, opacity, and noise. High entropy causes misperception.</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-end">
+                            <label class="text-sm font-semibold text-slate-300">System Coupling (C)</label>
+                            <span id="val-coupling" class="mono text-emerald-400 text-sm font-bold bg-slate-950 px-2 rounded">20%</span>
+                        </div>
+                        <input type="range" id="slider-coupling" class="slider-emerald" min="0" max="100" value="20">
+                        <p class="text-xs text-slate-500">Economic, structural, and existential interdependence.</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-end">
+                            <label class="text-sm font-semibold text-slate-300">De-escalation Signaling (S)</label>
+                            <span id="val-signaling" class="mono text-cyan-400 text-sm font-bold bg-slate-950 px-2 rounded">30%</span>
+                        </div>
+                        <input type="range" id="slider-signaling" class="slider-cyan" min="0" max="100" value="30">
+                        <p class="text-xs text-slate-500">Active communication to ensure defensive moves aren't seen as threats.</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-end">
+                            <label class="text-sm font-semibold text-slate-300">Parity Imbalance (I)</label>
+                            <span id="val-parity" class="mono text-amber-400 text-sm font-bold bg-slate-950 px-2 rounded">60%</span>
+                        </div>
+                        <input type="range" id="slider-parity" class="slider-amber" min="0" max="100" value="60">
+                        <p class="text-xs text-slate-500">Failure of the Third Player to act as a Feedback Controller. 0 = Perfect Parity.</p>
+                    </div>
+
+                    <div class="mt-auto pt-6 border-t border-slate-800">
+                        <div id="system-status-box" class="p-4 rounded-lg bg-pink-950/30 border border-pink-500 text-center transition-colors duration-300">
+                            <div class="text-xs text-slate-400 mono uppercase tracking-widest mb-1">System State</div>
+                            <div id="system-status-text" class="text-xl font-bold text-pink-400">ESCALATION RISK HIGH</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 flex flex-col gap-8">
+                    
+                    <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 shadow-xl">
+                        <h3 class="text-lg font-bold text-white mb-1">Utility Payoff Matrix</h3>
+                        <p class="text-sm text-slate-400 mb-6">Compares U(StatusQuo) vs U(Escalation). For peace, Status Quo must be higher.</p>
+                        <div class="chart-container">
+                            <canvas id="payoffChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 shadow-xl">
+                            <h3 class="text-lg font-bold text-white mb-1">State Space Trajectory</h3>
+                            <p class="text-sm text-slate-400 mb-4">Entropy vs Coupling coordinates.</p>
+                            <div class="chart-container" style="height: 250px;">
+                                <canvas id="scatterChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 shadow-xl">
+                            <h3 class="text-lg font-bold text-white mb-1">Triad of Safeties</h3>
+                            <p class="text-sm text-slate-400 mb-4">Active feedback loops maintaining the pendulum.</p>
+                            <div class="chart-container" style="height: 250px;">
+                                <canvas id="radarChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="ladder" class="scroll-mt-24">
+            <div class="mb-10 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-white mb-4 flex items-center justify-center gap-3">
+                    <span class="text-pink-500 mono bg-slate-800 px-2 py-1 rounded text-sm">02</span> 
+                    Kahn's Escalation Ladder
+                </h2>
+                <p class="text-slate-400">
+                    If the Metastable Peace framework fails, the system enters the state-transition model of Herman Kahn's 44-rung ladder. Each threshold represents a discrete state with increasing negative payoffs and decreasing reversibility.
+                </p>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden shadow-xl">
+                
+                <div class="accordion-item border-b border-slate-800">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-800/50 transition-colors focus:outline-none">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-cyan-950 flex items-center justify-center border border-cyan-800 text-cyan-400 font-bold mono">1-3</div>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-200">Sub-crisis Disagreement</h3>
+                                <p class="text-sm text-slate-500">Political, economic, and diplomatic gestures.</p>
+                            </div>
+                        </div>
+                        <span class="text-slate-500 icon-rotate transition-transform duration-300 text-2xl">&#8250;</span>
+                    </button>
+                    <div class="accordion-content bg-slate-950/50">
+                        <div class="px-6 py-5 pl-24 text-slate-400 text-sm leading-relaxed border-l-2 border-cyan-900 ml-12 my-2">
+                            The conflict begins with official complaints and low-level harassment. In game-theoretic terms for Frontier Models, these are signals intended to communicate resolve without committing significant compute resources. Examples include trade restrictions on niche hardware or diplomatic censures regarding data scraping.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-b border-slate-800">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-800/50 transition-colors focus:outline-none">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-emerald-950 flex items-center justify-center border border-emerald-800 text-emerald-400 font-bold mono">4-9</div>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-200">Traditional Crisis</h3>
+                                <p class="text-sm text-slate-500">Significant resource allocation and capability demonstrations.</p>
+                            </div>
+                        </div>
+                        <span class="text-slate-500 icon-rotate transition-transform duration-300 text-2xl">&#8250;</span>
+                    </button>
+                    <div class="accordion-content bg-slate-950/50">
+                        <div class="px-6 py-5 pl-24 text-slate-400 text-sm leading-relaxed border-l-2 border-emerald-900 ml-12 my-2">
+                            Actors begin explicitly demonstrating capabilities to enforce deterrence. This involves significant financial and compute allocation. For AI models, this resembles cyber probes, intentional manipulation of open-source datasets (poisoning), and public demonstrations of dual-use models capable of bypassing standard safeguards.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-b border-slate-800">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-800/50 transition-colors focus:outline-none">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-amber-950 flex items-center justify-center border border-amber-800 text-amber-400 font-bold mono">10-25</div>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-200">Intense & Bizarre Crises</h3>
+                                <p class="text-sm text-slate-500">Crossing the threshold of no return. System decoupling.</p>
+                            </div>
+                        </div>
+                        <span class="text-slate-500 icon-rotate transition-transform duration-300 text-2xl">&#8250;</span>
+                    </button>
+                    <div class="accordion-content bg-slate-950/50">
+                        <div class="px-6 py-5 pl-24 text-slate-400 text-sm leading-relaxed border-l-2 border-amber-900 ml-12 my-2">
+                            The "Burn Bridges" threshold is crossed. Mutual coupling drops near zero. In the AI context, this represents physical sabotage of hyperscale data centers, deployment of unaligned autonomous agents specifically designed to attack rival infrastructure, and the complete severing of global technological supply chains.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-800/50 transition-colors focus:outline-none">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-pink-950 flex items-center justify-center border border-pink-800 text-pink-500 font-bold mono">26-44</div>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-200">Central Wars & Spasm</h3>
+                                <p class="text-sm text-slate-500">Unconstrained attacks; attempt at First Strike Stability.</p>
+                            </div>
+                        </div>
+                        <span class="text-slate-500 icon-rotate transition-transform duration-300 text-2xl">&#8250;</span>
+                    </button>
+                    <div class="accordion-content bg-slate-950/50">
+                        <div class="px-6 py-5 pl-24 text-slate-400 text-sm leading-relaxed border-l-2 border-pink-900 ml-12 my-2">
+                            Spasm warfare. At this stage, actors attempt to achieve Escalation Dominance through overwhelming force, ignoring collateral damage. This involves the mass deployment of self-improving, unconstrained algorithmic attacks resulting in catastrophic infrastructural, economic, and societal damage globally. Mutually Assured Destruction is realized.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-800 py-8 mt-12 text-center text-slate-600 text-sm mono">
+        DATA.ANALYSIS // FRONTEND.RENDER // METASTABLE.PEACE.SYS
+    </footer>
+
+    <script>
+        function wrapLabel(label, limit = 16) {
+            if (label.length <= limit) return label;
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > limit) {
+                    if (currentLine) lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        }
+
+        const tooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+
+        let state = { h: 80, c: 20, s: 30, i: 60 };
+        const CONSTANTS = { beta: 40, pi: 65 };
+
+        const ctxPayoff = document.getElementById('payoffChart').getContext('2d');
+        const payoffChart = new Chart(ctxPayoff, {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('Status Quo (U_sq)'), wrapLabel('Escalation (U_esc)')],
+                datasets: [
+                    { label: 'Base Dividend / Conquest', data: [0, 0], backgroundColor: '#06b6d4', stack: 'Stack 0' },
+                    { label: 'Synergy Bonus / Parity Imb.', data: [0, 0], backgroundColor: '#10b981', stack: 'Stack 0' },
+                    { label: 'Trust Dividend / Miscalc', data: [0, 0], backgroundColor: '#f59e0b', stack: 'Stack 0' },
+                    { label: 'Friction / MAD Penalty (-)', data: [0, 0], backgroundColor: '#d946ef', stack: 'Stack 1' }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                ...tooltipConfig,
+                scales: {
+                    x: { stacked: true, grid: { color: '#1e293b' } },
+                    y: { stacked: true, grid: { color: '#1e293b' }, min: -100, max: 150 }
+                },
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }
+            }
+        });
+
+        const ctxScatter = document.getElementById('scatterChart').getContext('2d');
+        const scatterChart = new Chart(ctxScatter, {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    { label: 'Safe Zone (Peace)', data: [{x: 80, y: 20}], backgroundColor: 'rgba(16, 185, 129, 0.2)', borderColor: '#10b981', pointRadius: 15, type: 'bubble' },
+                    { label: 'Danger Zone (Spasm)', data: [{x: 20, y: 80}], backgroundColor: 'rgba(217, 70, 239, 0.2)', borderColor: '#d946ef', pointRadius: 15, type: 'bubble' },
+                    { label: 'Current System State', data: [{x: state.c, y: state.h}], backgroundColor: '#06b6d4', pointRadius: 8, pointHoverRadius: 10 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                ...tooltipConfig,
+                scales: {
+                    x: { title: { display: true, text: 'Coupling (C) %' }, min: 0, max: 100, grid: { color: '#1e293b' } },
+                    y: { title: { display: true, text: 'Entropy (H) %' }, min: 0, max: 100, grid: { color: '#1e293b' } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        const ctxRadar = document.getElementById('radarChart').getContext('2d');
+        const radarChart = new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: [wrapLabel('Kahn Safety (No 1st Strike)'), wrapLabel('Schelling Safety (Focal Pts)'), wrapLabel('Jervis Safety (No Misperc.)')],
+                datasets: [{
+                    label: 'Current Safety Profile',
+                    data: [0, 0, 0],
+                    backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                    borderColor: '#06b6d4',
+                    pointBackgroundColor: '#06b6d4',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                ...tooltipConfig,
+                scales: { r: { min: 0, max: 100, angleLines: { color: '#1e293b' }, grid: { color: '#1e293b' }, ticks: { display: false } } },
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        function updateSimulation() {
+            state.h = parseInt(document.getElementById('slider-entropy').value);
+            state.c = parseInt(document.getElementById('slider-coupling').value);
+            state.s = parseInt(document.getElementById('slider-signaling').value);
+            state.i = parseInt(document.getElementById('slider-parity').value);
+
+            document.getElementById('val-entropy').innerText = state.h + '%';
+            document.getElementById('val-coupling').innerText = state.c + '%';
+            document.getElementById('val-signaling').innerText = state.s + '%';
+            document.getElementById('val-parity').innerText = state.i + '%';
+
+            let alpha1C = state.c * 0.4;
+            let alpha2S = state.s * 0.2;
+            let gamma1H = state.h * 0.3;
+            let U_sq = CONSTANTS.beta + alpha1C + alpha2S - gamma1H;
+
+            let lambdaC = state.c * 0.7; 
+            let gamma2H = state.h * 0.4;
+            let deltaI = state.i * 0.3;
+            let U_esc = CONSTANTS.pi - lambdaC + gamma2H + deltaI;
+
+            payoffChart.data.datasets[0].data = [CONSTANTS.beta, CONSTANTS.pi];
+            payoffChart.data.datasets[1].data = [alpha1C, deltaI];
+            payoffChart.data.datasets[2].data = [alpha2S, gamma2H];
+            payoffChart.data.datasets[3].data = [-gamma1H, -lambdaC];
+            payoffChart.update();
+
+            scatterChart.data.datasets[2].data = [{x: state.c, y: state.h}];
+            scatterChart.update();
+
+            let kahnSafety = Math.max(0, Math.min(100, 100 - (U_esc * 0.8)));
+            let schellingSafety = Math.max(0, Math.min(100, (state.c * 0.6) + ((100 - state.h) * 0.4)));
+            let jervisSafety = Math.max(0, Math.min(100, (state.s * 0.6) + ((100 - state.h) * 0.4)));
+            
+            radarChart.data.datasets[0].data = [kahnSafety, schellingSafety, jervisSafety];
+            radarChart.update();
+
+            const statusBox = document.getElementById('system-status-box');
+            const statusText = document.getElementById('system-status-text');
+            
+            if (U_sq > U_esc + 20) {
+                statusBox.className = "p-4 rounded-lg bg-emerald-950/30 border border-emerald-500 text-center transition-colors duration-300";
+                statusText.className = "text-xl font-bold text-emerald-400";
+                statusText.innerText = "METASTABLE PEACE";
+            } else if (U_sq > U_esc) {
+                statusBox.className = "p-4 rounded-lg bg-amber-950/30 border border-amber-500 text-center transition-colors duration-300";
+                statusText.className = "text-xl font-bold text-amber-400";
+                statusText.innerText = "TENSE PARITY";
+            } else {
+                statusBox.className = "p-4 rounded-lg bg-pink-950/30 border border-pink-500 text-center transition-colors duration-300 neon-border-pink";
+                statusText.className = "text-xl font-bold text-pink-400";
+                statusText.innerText = "ESCALATION SPIRAL";
+            }
+        }
+
+        ['entropy', 'coupling', 'signaling', 'parity'].forEach(id => {
+            document.getElementById(`slider-${id}`).addEventListener('input', updateSimulation);
+        });
+
+        document.querySelectorAll('.accordion-item button').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
+
+        updateSimulation();
+    </script>
+</body>
+</html>
+

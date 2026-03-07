@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Arms & Influence: Metastable Peace Framework</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 45vh;
+                max-height: 450px;
+            }
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #38bdf8, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-glow {
+            box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.1), 0 8px 10px -6px rgba(56, 189, 248, 0.1);
+        }
+        .ladder-step {
+            border-left: 4px solid #38bdf8;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .ladder-step::before {
+            content: '■';
+            position: absolute;
+            left: -0.45rem;
+            top: 0;
+            color: #f472b6;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body class="antialiased pb-20">
+    <!-- Palette Chosen: Vibrant Cyberpunk (Slate #0f172a, Sky Blue #38bdf8, Pink #f472b6, Emerald #34d399, Amber #fbbf24) -->
+    <!-- Narrative Plan: 1. Intro & Escalation Ladder, 2. Core Variables (Entropy/Coupling Matrix), 3. Payoff Calculus (Utility Comparison), 4. Triad of Safeties (Radar), 5. The Stabilizer (System Flow). -->
+    <!-- Visualizations: 1. HTML Stepper (Organize), 2. Scatter Plot (Relationships), 3. Stacked Bar (Compare), 4. Radar Chart (Compare), 5. CSS Node Map (Organize). -->
+    <!-- Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this output. -->
+
+    <nav class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 p-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-tight gradient-text">Metastable Peace Framework</h1>
+            <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-300">
+                <a href="#escalation" class="hover:text-sky-400 transition-colors">Escalation</a>
+                <a href="#variables" class="hover:text-sky-400 transition-colors">Variables</a>
+                <a href="#payoffs" class="hover:text-sky-400 transition-colors">Payoffs</a>
+                <a href="#safeties" class="hover:text-sky-400 transition-colors">Safeties</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="max-w-5xl mx-auto px-6 py-20 text-center">
+        <h2 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">Navigating the <span class="gradient-text">Frontier Model</span> Arms Race</h2>
+        <p class="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
+            As AI models reach unprecedented capabilities, the geopolitical landscape mirrors Cold War nuclear dynamics. Based on Kahn's Escalation Ladder and Jervis's Misperception theory, this framework defines the mathematical state-transition model required to maintain a non-equilibrium state of peace.
+        </p>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 space-y-24">
+        
+        <section id="escalation" class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h3 class="text-3xl font-bold mb-4 text-sky-400">The Anatomy of Escalation</h3>
+                <p class="text-slate-300 mb-6 leading-relaxed">
+                    Herman Kahn's 1965 framework models conflict as a 44-rung ladder, moving from minor disagreements to spasm warfare. In the context of frontier AI, escalation represents increasing commitments of compute, deployment of autonomous systems, and the breakdown of international alignment. The goal is not merely to avoid the top rung, but to prevent the structural thresholds that make escalation inevitable.
+                </p>
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 card-glow">
+                    <h4 class="text-xl font-semibold mb-6 text-white">Thresholds of No Return</h4>
+                    <div class="space-y-6">
+                        <div class="ladder-step border-slate-600">
+                            <h5 class="text-lg font-bold text-pink-400">Rungs 1-3: Sub-crisis Disagreement</h5>
+                            <p class="text-sm text-slate-400">Political and economic gestures. Low-level AI harassment and diplomatic signaling without massive compute commitment.</p>
+                        </div>
+                        <div class="ladder-step border-slate-600">
+                            <h5 class="text-lg font-bold text-amber-400">Rungs 4-9: Traditional Crisis</h5>
+                            <p class="text-sm text-slate-400">Significant resource allocation. Cyber probes, restriction of hardware supply chains, and explicit capability demonstrations.</p>
+                        </div>
+                        <div class="ladder-step border-slate-600">
+                            <h5 class="text-lg font-bold text-orange-500">Rungs 10-25: Intense & Bizarre Crises</h5>
+                            <p class="text-sm text-slate-400">Crossing the threshold of no return. Sabotage of data centers, unaligned agentic deployments, and complete decoupling.</p>
+                        </div>
+                        <div class="ladder-step border-slate-600 border-l-transparent pb-0">
+                            <h5 class="text-lg font-bold text-red-500">Rungs 26-44: Central Wars</h5>
+                            <p class="text-sm text-slate-400">Spasm warfare. Unconstrained algorithmic attacks resulting in catastrophic infrastructural and societal damage.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-slate-800 rounded-xl p-8 border border-slate-700 flex flex-col justify-center items-center h-full">
+                <div class="text-7xl font-extrabold text-sky-400 mb-2">44</div>
+                <div class="text-xl font-medium text-slate-300 mb-8 uppercase tracking-widest">Discrete States</div>
+                <p class="text-center text-slate-400 italic max-w-sm">
+                    "Escalation dominance is the ability to increase the stakes to a level where the opponent cannot match the move and is forced to de-escalate."
+                </p>
+            </div>
+        </section>
+
+        <section id="variables" class="space-y-8">
+            <div class="text-center max-w-3xl mx-auto">
+                <h3 class="text-3xl font-bold mb-4 text-emerald-400">The Core State Variables</h3>
+                <p class="text-slate-300 leading-relaxed">
+                    System stability is dictated by the interaction of two primary variables: <strong>Information Entropy (H)</strong> and <strong>System Coupling (C)</strong>. High entropy breeds paranoia and arms races. High coupling ensures mutual survival. The target state for frontier model development is the upper-left quadrant: maximizing interdependence while eliminating opacity.
+                </p>
+            </div>
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 card-glow">
+                <div class="chart-container">
+                    <canvas id="entropyCouplingChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="payoffs" class="space-y-8">
+            <div class="text-center max-w-3xl mx-auto">
+                <h3 class="text-3xl font-bold mb-4 text-pink-400">The Utility Payoff Calculus</h3>
+                <p class="text-slate-300 leading-relaxed">
+                    Actors act on rational choice utility functions. To prevent an escalation spiral, the perceived payoff of the Status Quo must strictly exceed the maximum potential payoff of Escalation. This chart breaks down the mathematical components of both states, highlighting how MAD penalties and synergy bonuses tilt the scale.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8 bg-slate-800 p-6 rounded-xl border border-slate-700 card-glow">
+                    <div class="chart-container">
+                        <canvas id="payoffChart"></canvas>
+                    </div>
+                </div>
+                <div class="lg:col-span-4 flex flex-col justify-center space-y-6">
+                    <div class="bg-slate-900 p-5 rounded-lg border border-slate-700 border-l-4 border-l-sky-400">
+                        <div class="text-lg font-bold text-white mb-2">U(Status Quo)</div>
+                        <div class="text-sm text-slate-400 font-mono mb-2">β + α₁(C) + α₂(S) - γ₁(H)</div>
+                        <p class="text-sm text-slate-300">Driven by baseline economic dividends, coupling synergies, and trust generated by signaling, minus the friction of entropy.</p>
+                    </div>
+                    <div class="bg-slate-900 p-5 rounded-lg border border-slate-700 border-l-4 border-l-pink-400">
+                        <div class="text-lg font-bold text-white mb-2">U(Escalation)</div>
+                        <div class="text-sm text-slate-400 font-mono mb-2">π - λ(C) + γ₂(H) + δ(I)</div>
+                        <p class="text-sm text-slate-300">Driven by the lure of conquest and miscalculated optimism, but heavily negated by the decoupling/MAD penalty.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="safeties" class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 card-glow order-2 lg:order-1">
+                <div class="chart-container">
+                    <canvas id="safetyTriadChart"></canvas>
+                </div>
+            </div>
+            <div class="order-1 lg:order-2">
+                <h3 class="text-3xl font-bold mb-4 text-amber-400">The Triad of Safety Mechanisms</h3>
+                <p class="text-slate-300 mb-6 leading-relaxed">
+                    An inverted pendulum requires active feedback loops to remain upright. The framework demands three concurrent safety profiles to maintain metastable peace.
+                </p>
+                <div class="space-y-4">
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <h5 class="font-bold text-emerald-400 mb-1">1. Kahn Safety (Denial of First Strike)</h5>
+                        <p class="text-sm text-slate-400">Prevents First Strike Stability by maximizing the mutual destruction penalty. No actor can achieve Escalation Dominance without crippling themselves.</p>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <h5 class="font-bold text-sky-400 mb-1">2. Schelling Safety (Focal Points)</h5>
+                        <p class="text-sm text-slate-400">Establishes clear, highly coupled boundaries over compute and resources, removing the psychological impulse to "Burn Bridges."</p>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <h5 class="font-bold text-pink-400 mb-1">3. Jervis Safety (Misperception Control)</h5>
+                        <p class="text-sm text-slate-400">Actively minimizes Information Entropy through aggressive De-escalation Signaling, ensuring defensive measures are not misread as offensive posturing.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="stabilizer" class="space-y-8 pb-12">
+            <div class="text-center max-w-3xl mx-auto">
+                <h3 class="text-3xl font-bold mb-4 text-white">The Active Stabilizer: <span class="text-sky-400">P<sub>dec</sub></span></h3>
+                <p class="text-slate-300 leading-relaxed mb-10">
+                    In a bipolar system, parity imbalances rapidly lead to escalation. A declining third power (P<sub>dec</sub>) acts as a classic PID feedback controller. By dynamically aligning with the weaker of the two primary giants, it enforces "Stagnant Parity," continuously neutralizing the structural advantage variable in the escalation payoff equation.
+                </p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-12 bg-slate-800 p-10 rounded-xl border border-slate-700 card-glow overflow-hidden relative">
+                
+                <div class="z-10 bg-slate-900 border-2 border-sky-500 rounded-xl p-6 w-64 text-center shadow-[0_0_20px_rgba(56,189,248,0.3)]">
+                    <div class="text-2xl font-bold text-sky-400 mb-2">P<sub>dom</sub></div>
+                    <div class="text-sm text-slate-300 uppercase tracking-widest mb-4">Dominant Power</div>
+                    <div class="h-2 w-full bg-slate-700 rounded-full overflow-hidden">
+                        <div class="h-full bg-sky-500 w-3/4"></div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center justify-center z-10">
+                    <div class="bg-amber-500/10 border border-amber-500/50 text-amber-400 px-4 py-2 rounded-full text-sm font-bold mb-4 whitespace-nowrap">
+                        Dynamic Alignment
+                    </div>
+                    <div class="text-3xl text-slate-500">⟷</div>
+                    <div class="mt-4 bg-slate-900 border-2 border-amber-500 rounded-xl p-4 w-48 text-center shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+                        <div class="text-xl font-bold text-amber-400 mb-1">P<sub>dec</sub></div>
+                        <div class="text-xs text-slate-300 uppercase">Third Player<br>(Feedback Controller)</div>
+                    </div>
+                </div>
+
+                <div class="z-10 bg-slate-900 border-2 border-pink-500 rounded-xl p-6 w-64 text-center shadow-[0_0_20px_rgba(244,114,182,0.3)]">
+                    <div class="text-2xl font-bold text-pink-400 mb-2">P<sub>rise</sub></div>
+                    <div class="text-sm text-slate-300 uppercase tracking-widest mb-4">Rising Power</div>
+                    <div class="h-2 w-full bg-slate-700 rounded-full overflow-hidden">
+                        <div class="h-full bg-pink-500 w-2/3"></div>
+                    </div>
+                </div>
+
+                <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#38bdf8 1px, transparent 1px); background-size: 20px 20px;"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-800 py-8 text-center text-slate-500 text-sm">
+        <p>Simulation Framework for AI Frontier Models & Metastable Peace</p>
+    </footer>
+
+    <script>
+        function wrapLabel(label, limit = 16) {
+            if (label.length <= limit) return label;
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > limit) {
+                    if (currentLine) lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        }
+
+        const commonTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = 'Inter';
+
+        const ctxScatter = document.getElementById('entropyCouplingChart').getContext('2d');
+        new Chart(ctxScatter, {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    {
+                        label: wrapLabel('Metastable Peace (Target State)'),
+                        data: [{ x: 85, y: 15 }],
+                        backgroundColor: '#34d399',
+                        pointRadius: 10,
+                        pointHoverRadius: 14
+                    },
+                    {
+                        label: wrapLabel('Decoupled Tech Cold War'),
+                        data: [{ x: 20, y: 80 }],
+                        backgroundColor: '#f472b6',
+                        pointRadius: 10,
+                        pointHoverRadius: 14
+                    },
+                    {
+                        label: wrapLabel('Opaque Interdependence'),
+                        data: [{ x: 70, y: 75 }],
+                        backgroundColor: '#fbbf24',
+                        pointRadius: 10,
+                        pointHoverRadius: 14
+                    },
+                    {
+                        label: wrapLabel('Historical Cold War (1960s)'),
+                        data: [{ x: 10, y: 90 }],
+                        backgroundColor: '#ef4444',
+                        pointRadius: 8,
+                        pointHoverRadius: 12
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: commonTooltipConfig,
+                    title: { display: true, text: 'System Trajectories', color: '#e2e8f0', font: { size: 16 } }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'System Coupling (C) %' },
+                        min: 0, max: 100,
+                        grid: { color: '#334155' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Information Entropy (H) %' },
+                        min: 0, max: 100,
+                        grid: { color: '#334155' }
+                    }
+                }
+            }
+        });
+
+        const ctxPayoff = document.getElementById('payoffChart').getContext('2d');
+        const payoffLabels = [
+            wrapLabel('Status Quo Payoff (U_sq)'),
+            wrapLabel('Escalation Potential (U_esc)')
+        ];
+        
+        new Chart(ctxPayoff, {
+            type: 'bar',
+            data: {
+                labels: payoffLabels,
+                datasets: [
+                    {
+                        label: 'Baseline / Conquest',
+                        data: [40, 60],
+                        backgroundColor: ['#38bdf8', '#f472b6'],
+                        stack: 'Stack 0'
+                    },
+                    {
+                        label: 'Synergy / Miscalc Optimism',
+                        data: [35, 25],
+                        backgroundColor: ['#0ea5e9', '#e11d48'],
+                        stack: 'Stack 0'
+                    },
+                    {
+                        label: 'Trust Signal / Parity Imbalance',
+                        data: [20, 15],
+                        backgroundColor: ['#0284c7', '#be123c'],
+                        stack: 'Stack 0'
+                    },
+                    {
+                        label: 'Friction / MAD Penalty (Negative)',
+                        data: [-15, -75],
+                        backgroundColor: ['#64748b', '#0f172a'],
+                        stack: 'Stack 1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right' },
+                    tooltip: commonTooltipConfig,
+                    title: { display: true, text: 'Utility Components Calculation', color: '#e2e8f0', font: { size: 16 } }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        grid: { display: false }
+                    },
+                    y: {
+                        stacked: true,
+                        grid: { color: '#334155' },
+                        title: { display: true, text: 'Calculated Utility Value' }
+                    }
+                }
+            }
+        });
+
+        const ctxRadar = document.getElementById('safetyTriadChart').getContext('2d');
+        const radarLabels = [
+            wrapLabel('Kahn Safety (First Strike Denial)'),
+            wrapLabel('Schelling Safety (Focal Points)'),
+            wrapLabel('Jervis Safety (Misperception Control)')
+        ];
+
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: radarLabels,
+                datasets: [
+                    {
+                        label: wrapLabel('Target Metastable State'),
+                        data: [90, 85, 95],
+                        backgroundColor: 'rgba(52, 211, 153, 0.2)',
+                        borderColor: '#34d399',
+                        pointBackgroundColor: '#34d399',
+                        borderWidth: 2
+                    },
+                    {
+                        label: wrapLabel('Current Geopolitical Reality'),
+                        data: [60, 40, 30],
+                        backgroundColor: 'rgba(244, 114, 182, 0.2)',
+                        borderColor: '#f472b6',
+                        pointBackgroundColor: '#f472b6',
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: commonTooltipConfig
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: '#334155' },
+                        grid: { color: '#334155' },
+                        pointLabels: { color: '#e2e8f0', font: { size: 12 } },
+                        ticks: { display: false, min: 0, max: 100 }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
