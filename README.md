@@ -1,4 +1,6 @@
-Metastable Peace
+<H1>Metastable Peace</H1>
+
+<img width="542" height="278" alt="image" src="https://github.com/user-attachments/assets/30af00e7-741a-4316-915a-e16015d87277" />
 
 A non-equilibrium system is like an inverted pendulum; it will not stay upright on its own. It requires:
 
