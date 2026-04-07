@@ -9,7 +9,7 @@ A non-equilibrium system is like an inverted pendulum; it will not stay upright 
 3.  **Jervis Safety:** Aggressive "De-escalation Signaling" to ensure that a defensive move by one isn't seen as an existential threat by the other.
 
 <h2>Files:</h2>
-<b><a href "https://github.com/juanjosearanda/metastable/Metastable_Peace_Infographic.html">The Formal Mathematical Model</a></b>: A theoretical breakdown of how Information Entropy, Coupling, and the Three Safeties mathematically interact to maintain the "inverted pendulum" of peace.<br>
+<b><a href "Metastable_Peace_Infographic.html">The Formal Mathematical Model</a></b>: A theoretical breakdown of how Information Entropy, Coupling, and the Three Safeties mathematically interact to maintain the "inverted pendulum" of peace.<br>
 <b><a href "https://github.com/juanjosearanda/metastable/Metastable_Peace_Simulator.html"> Interactive System-Dynamics Simulator</a></b>: A live dashboard where you can adjust Entropy, Coupling, De-escalation Signaling, and Third-Player balancing to see how they directly affect the Perceived Payoff vs. Maximum Potential Payoff, determining if the system remains in a Metastable Peace or spirals up Kahn's escalation ladder.
 <h2>References</h2>
 <ul>
