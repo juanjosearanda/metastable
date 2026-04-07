@@ -10,7 +10,7 @@ A non-equilibrium system is like an inverted pendulum; it will not stay upright 
 
 <h2>Files:</h2>
 <b><a href "./Metastable_Peace_Infographic.html">The Formal Mathematical Model</a></b>: A theoretical breakdown of how Information Entropy, Coupling, and the Three Safeties mathematically interact to maintain the "inverted pendulum" of peace.<br>
-<b><a href "./Metastable_Peace_Simulator.html"> Interactive System-Dynamics Simulator</a></b>: A live dashboard where you can adjust Entropy, Coupling, De-escalation Signaling, and Third-Player balancing to see how they directly affect the Perceived Payoff vs. Maximum Potential Payoff, determining if the system remains in a Metastable Peace or spirals up Kahn's escalation ladder.
+<b><a href "./Interactive_Metastable_Peace_Framework.html"> Interactive System-Dynamics Simulator</a></b>: A live dashboard where you can adjust Entropy, Coupling, De-escalation Signaling, and Third-Player balancing to see how they directly affect the Perceived Payoff vs. Maximum Potential Payoff, determining if the system remains in a Metastable Peace or spirals up Kahn's escalation ladder.
 <h2>References</h2>
 <ul>
 <li>Herman Kahn. On Escalation: Metaphors and Scenarios. Praeger, New York, 1965. https://www.amazon.com/Escalation-Metaphors-Scenarios-Herman-Kahn/dp/0313251630 <br>Archive.org: https://archive.org/details/onescalationmeta0000kahn </li>
